@@ -1,6 +1,6 @@
-#include "dominoModel.h"
-#include "dominoView.h"
-#include "dominoController.h"
+#include "model.h"
+#include "view.h"
+#include "controller.h"
 
 int opcao;
 bool fim = false;
