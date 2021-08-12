@@ -1,2 +1,2 @@
-# bucha-de-seis
+# bucha-de-sena
 PROJETO DE CRIAÇÃO DE UM JOGO DE DOMINÓ USANDO APENAS A LINGUAGEM C
