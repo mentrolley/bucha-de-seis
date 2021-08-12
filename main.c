@@ -33,7 +33,7 @@ int main()
 
     int contPecas = 0;
 
-    //for(int i = 0; i <= 6; i++)
+    for(int i = 0; i <= 6; i++)
     {
         for(int j = i; j <= 6; j++)
         {
@@ -49,117 +49,71 @@ int main()
     }
 
     //***************************
-
-
-
     //REQ2
     //distribuir/embaralhar peças para cada jogador
 
     printf("\n");
     printf(" Jogador 1: |");
 
-    //jogador 1
+    for(int i = 0; i < 7; i++){
 
-    for(int i = 0; i < 7; i++)
-    {
+        int numPeca = rand() % 28;
+        player1.pecasPlayers[i].p1 = pecas[numPeca].p1;
+        player1.pecasPlayers[i].p2 = pecas[numPeca].p2;
 
-        player1.pecasPlayers[i].p1 = rand() % 7;
-        player1.pecasPlayers[i].p2 = rand() % 7;
+        if(pecas[numPeca].p1 == 9 && pecas[numPeca].p2 == 9){ //verifica se a peça já foi usada
 
-        for(int j = i-1; j >= 0; j--) //comparando com peças já existentes
-        {
-            if(player1.pecasPlayers[i].p1 == player1.pecasPlayers[j].p1)
-            {
-                player1.pecasPlayers[i].p1 = rand() % 7;
-                j++;
-            }
+            int numPecaTemp = rand() % 28;
 
+            player1.pecasPlayers[i].p1 = pecas[numPecaTemp].p1;
+            player1.pecasPlayers[i].p2 = pecas[numPecaTemp].p2;
+
+            pecas[numPecaTemp].p1 = 9; //sent
+            pecas[numPecaTemp].p2 = 9;
         }
 
-        for(int k = i-1; k >= 0; k--) //comparando com peças já existentes
-        {
-            if(player1.pecasPlayers[i].p2 == player1.pecasPlayers[k].p2)
-            {
-                player1.pecasPlayers[i].p2 = rand() % 7;
-                k++;
-            }
+        else{
 
+            pecas[numPeca].p1 = 9;
+            pecas[numPeca].p2 = 9;
         }
 
-        for(int m = 0; m < 28; m++)
-        {
-            int peca1 = player1.pecasPlayers[i].p1;
-            int peca2 = player1.pecasPlayers[i].p2;
-            int temp1 = peca2;
-            int temp2 = peca1;
-
-            if((peca1 == pecas[m].p1 && peca2 == pecas[m].p2) || (temp1 == pecas[m].p1 && temp2 == pecas[m].p2))
-            {
-                pecas[m].p1 = 9;
-                pecas[m].p2 = 9;
-            }
-        }
-        player1.pecasPlayers[i].Vh = player1.pecasPlayers[i].p2 + (player1.pecasPlayers[i].p1*10); //transformando em dezenas
+        player1.pecasPlayers[i].Vh = player1.pecasPlayers[i].p1*10 + player1.pecasPlayers[i].p2;
         printf("%d%d |", player1.pecasPlayers[i].p1, player1.pecasPlayers[i].p2);
+
     }
 
+    printf("\n Jogador 2: |");
+
+    for(int i = 0; i < 7; i++){
+
+        int numPeca = rand() % 28;
+
+        player2.pecasPlayers[i].p1 = pecas[numPeca].p1;
+        player2.pecasPlayers[i].p2 = pecas[numPeca].p2;
+
+        if(pecas[numPeca].p1 == 9 && pecas[numPeca].p2 == 9){
+
+            int numPecaTemp = rand() % 28;
+
+            player2.pecasPlayers[i].p1 = pecas[numPecaTemp].p1;
+            player2.pecasPlayers[i].p2 = pecas[numPecaTemp].p2;
 
 
-    //jogador 2
-
-    printf("\n");
-    printf(" Jogador 2: |");
-
-    for(int i = 0; i < 7; i++)
-    {
-        for(int m = 0; m < 28; m++)
-        {
-            if(!(pecas[m].p1 == 9 && pecas[m].p2 == 9))
-            {
-                player2.pecasPlayers[i].p1 = rand() % 7;
-                player2.pecasPlayers[i].p2 = rand() % 7;
-
-                for(int j = i-1; j >= 0; j--) //comparando com peças já existentes
-                {
-                    if(player2.pecasPlayers[i].p1 == player2.pecasPlayers[j].p1)
-                    {
-                        player2.pecasPlayers[i].p1 = rand() % 7;
-                        j++;
-                    }
-
-                }
-
-                for(int k = i-1; k >= 0; k--) //comparando com peças já existentes
-                {
-                    if(player2.pecasPlayers[i].p2 == player2.pecasPlayers[k].p2)
-                    {
-                        player2.pecasPlayers[i].p2 = rand() % 7;
-                        k++;
-                    }
-
-                }
-            }
-            else
-                continue;
+            pecas[numPecaTemp].p1 = 9;
+            pecas[numPecaTemp].p2 = 9;
         }
 
-        for(int m = 0; m < 28; m++)
-        {
-            int peca1 = player2.pecasPlayers[i].p1;
-            int peca2 = player2.pecasPlayers[i].p2;
-            int temp1 = peca2;
-            int temp2 = peca1;
+        else{
 
-            if((peca1 == pecas[m].p1 && peca2 == pecas[m].p2) || (temp1 == pecas[m].p1 && temp2 == pecas[m].p2))
-            {
-                pecas[m].p1 = 9;
-                pecas[m].p2 = 9;
-            }
+            pecas[numPeca].p1 = 9;
+            pecas[numPeca].p2 = 9;
         }
-        player2.pecasPlayers[i].Vh = player2.pecasPlayers[i].p2 + (player2.pecasPlayers[i].p1*10); //transformando em dezenas
+
+
+        player2.pecasPlayers[i].Vh = player2.pecasPlayers[i].p1*10 + player2.pecasPlayers[i].p2;
         printf("%d%d |", player2.pecasPlayers[i].p1, player2.pecasPlayers[i].p2);
     }
-
 
     printf("\n");
     printf("\n");
