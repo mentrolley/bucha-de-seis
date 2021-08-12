@@ -7,12 +7,12 @@ typedef struct
 {
     int p1;
     int p2;
-    int Vh; //tamanho das dezenas para comparação de tamanho
-} nomePecas; //peça
+    int Vh; //tamanho das dezenas para comparaÃ§Ã£o de tamanho
+} nomePecas; //peÃ§a
 
 typedef struct
 {
-    nomePecas pecasPlayers[7]; //7 peças
+    nomePecas pecasPlayers[7]; //7 peÃ§as
 } players; //jogadores
 
 int main()
@@ -20,28 +20,28 @@ int main()
     setlocale(LC_ALL, "");
     setlocale(LC_CTYPE, "");
 
-    nomePecas pecas[28]; //peças totais
-    players player1; //jogador 1 com 7 peças
-    players player2; //jogador 2 com 7 peças
+    nomePecas pecas[28]; //peÃ§as totais
+    players player1; //jogador 1 com 7 peÃ§as
+    players player2; //jogador 2 com 7 peÃ§as
 
-    srand(time(NULL)); //para que os números aleatórios não repitam
+    srand(time(NULL)); //para que os nÃºmeros aleatÃ³rios nÃ£o repitam
 
     //***************************
 
     //REQ1 + REQ4
-    //mostrar as 28 peças
+    //mostrar as 28 peÃ§as
 
     int contPecas = 0;
 
-    for(int i = 0; i <= 6; i++)
+    //for(int i = 0; i <= 6; i++)
     {
         for(int j = i; j <= 6; j++)
         {
-            //atribuindo os valores para cada peça
+            //atribuindo os valores para cada peÃ§a
             pecas[contPecas].p1 = i;
             pecas[contPecas].p2 = j;
             pecas[contPecas].Vh = j+i*10;
-            //mostrando as peças
+            //mostrando as peÃ§as
             printf("%d%d ", pecas[contPecas].p1, pecas[contPecas].p2);
             contPecas++;
         }
@@ -50,8 +50,10 @@ int main()
 
     //***************************
 
+
+
     //REQ2
-    //embaralhar peças para cada jogador
+    //distribuir/embaralhar peÃ§as para cada jogador
 
     printf("\n");
     printf(" Jogador 1: |");
@@ -60,10 +62,11 @@ int main()
 
     for(int i = 0; i < 7; i++)
     {
+
         player1.pecasPlayers[i].p1 = rand() % 7;
         player1.pecasPlayers[i].p2 = rand() % 7;
 
-        for(int j = i-1; j >= 0; j--) //comparando com peças já existentes
+        for(int j = i-1; j >= 0; j--) //comparando com peÃ§as jÃ¡ existentes
         {
             if(player1.pecasPlayers[i].p1 == player1.pecasPlayers[j].p1)
             {
@@ -73,7 +76,7 @@ int main()
 
         }
 
-        for(int k = i-1; k >= 0; k--) //comparando com peças já existentes
+        for(int k = i-1; k >= 0; k--) //comparando com peÃ§as jÃ¡ existentes
         {
             if(player1.pecasPlayers[i].p2 == player1.pecasPlayers[k].p2)
             {
@@ -82,9 +85,24 @@ int main()
             }
 
         }
+
+        for(int m = 0; m < 28; m++)
+        {
+            int peca1 = player1.pecasPlayers[i].p1;
+            int peca2 = player1.pecasPlayers[i].p2;
+            int temp1 = peca2;
+            int temp2 = peca1;
+
+            if((peca1 == pecas[m].p1 && peca2 == pecas[m].p2) || (temp1 == pecas[m].p1 && temp2 == pecas[m].p2))
+            {
+                pecas[m].p1 = 9;
+                pecas[m].p2 = 9;
+            }
+        }
         player1.pecasPlayers[i].Vh = player1.pecasPlayers[i].p2 + (player1.pecasPlayers[i].p1*10); //transformando em dezenas
         printf("%d%d |", player1.pecasPlayers[i].p1, player1.pecasPlayers[i].p2);
     }
+
 
 
     //jogador 2
@@ -94,31 +112,54 @@ int main()
 
     for(int i = 0; i < 7; i++)
     {
-        player2.pecasPlayers[i].p1 = rand() % 7;
-        player2.pecasPlayers[i].p2 = rand() % 7;
-
-        for(int j = i-1; j >= 0; j--) //comparando com peças já existentes
+        for(int m = 0; m < 28; m++)
         {
-            if(player2.pecasPlayers[i].p1 == player2.pecasPlayers[j].p1)
+            if(!(pecas[m].p1 == 9 && pecas[m].p2 == 9))
             {
                 player2.pecasPlayers[i].p1 = rand() % 7;
-                j++;
-            }
+                player2.pecasPlayers[i].p2 = rand() % 7;
 
+                for(int j = i-1; j >= 0; j--) //comparando com peÃ§as jÃ¡ existentes
+                {
+                    if(player2.pecasPlayers[i].p1 == player2.pecasPlayers[j].p1)
+                    {
+                        player2.pecasPlayers[i].p1 = rand() % 7;
+                        j++;
+                    }
+
+                }
+
+                for(int k = i-1; k >= 0; k--) //comparando com peÃ§as jÃ¡ existentes
+                {
+                    if(player2.pecasPlayers[i].p2 == player2.pecasPlayers[k].p2)
+                    {
+                        player2.pecasPlayers[i].p2 = rand() % 7;
+                        k++;
+                    }
+
+                }
+            }
+            else
+                continue;
         }
 
-        for(int k = i-1; k >= 0; k--) //comparando com peças já existentes
+        for(int m = 0; m < 28; m++)
         {
-            if(player2.pecasPlayers[i].p2 == player2.pecasPlayers[k].p2)
-            {
-                player2.pecasPlayers[i].p2 = rand() % 7;
-                k++;
-            }
+            int peca1 = player2.pecasPlayers[i].p1;
+            int peca2 = player2.pecasPlayers[i].p2;
+            int temp1 = peca2;
+            int temp2 = peca1;
 
+            if((peca1 == pecas[m].p1 && peca2 == pecas[m].p2) || (temp1 == pecas[m].p1 && temp2 == pecas[m].p2))
+            {
+                pecas[m].p1 = 9;
+                pecas[m].p2 = 9;
+            }
         }
         player2.pecasPlayers[i].Vh = player2.pecasPlayers[i].p2 + (player2.pecasPlayers[i].p1*10); //transformando em dezenas
         printf("%d%d |", player2.pecasPlayers[i].p1, player2.pecasPlayers[i].p2);
     }
+
 
     printf("\n");
     printf("\n");
@@ -126,7 +167,7 @@ int main()
     //***************************
 
     //REQ3
-    //sequência correta
+    //sequÃªncia correta
 
     //jogador 1
 
@@ -172,6 +213,20 @@ int main()
     for(int i =0 ; i < 7; i++)
     {
         printf("%02d |",player2.pecasPlayers[i].Vh);
+    }
+
+    contPecas = 0;
+    printf("\n \n");
+
+    for(int i = 0; i <= 6; i++)
+    {
+        for(int j = i; j <= 6; j++)
+        {
+            //mostrando as peÃ§as
+            printf("%d%d ", pecas[contPecas].p1, pecas[contPecas].p2);
+            contPecas++;
+        }
+        printf("\n");
     }
 
 
