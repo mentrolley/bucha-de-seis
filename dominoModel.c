@@ -33,11 +33,11 @@ void iniciarPecas()
     {
         for(int j = i; j <= 6; j++)
         {
-            //atribuindo os valores para cada peça
+            //atribuindo os valores para cada peÃ§a
             pecas[contPecas].p1 = i;
             pecas[contPecas].p2 = j;
             pecas[contPecas].Vh = j+i*10;
-            //mostrando as peças
+            //mostrando as peÃ§as
             printf("%d%d ", pecas[contPecas].p1, pecas[contPecas].p2);
             contPecas++;
         }
@@ -47,45 +47,33 @@ void iniciarPecas()
 
 void montarPecasPlayer1()
 {
+    int dominoP1, dominoP2;
+    int numPeca;
 
-
-    bool sentinela99 = false;
-    int dominoP1;
-    int dominoP2;
-
-    for(int i = 0; i <= 6; i++)
+    for(int i = 0; i < 7; i++)
     {
-        do
+        numPeca = rand() % 28;
+
+        dominoP1 = pecas[numPeca].p1;
+        dominoP2 = pecas[numPeca].p2;
+
+        if(dominoP1 == 9 && dominoP2 == 9)
         {
-            if(player1.pecasPlayers[i].p1 == 9 && player1.pecasPlayers[i].p2 == 9)
-            {
+            numPeca = rand() % 28;
 
-                int numPeca = rand() % 28;
-
-                if(pecas[numPeca].p1 == 9)
-                {
-                    sentinela99 = true;
-                }
-
-                else
-                {
-
-                    dominoP1 = pecas[numPeca].p1;
-                    dominoP2 = pecas[numPeca].p2;
-
-                    player2.pecasPlayers[i].p1 = dominoP1;
-                    player2.pecasPlayers[i].p2 = dominoP2;
-                }
-            }
+            dominoP1 = pecas[numPeca].p1;
+            dominoP2 = pecas[numPeca].p2;
         }
-        while(!sentinela99);
 
-        player2.pecasPlayers[i].Vh = dominoP1*10 + dominoP2;
-        sentinela99 = false;
+        player1.pecasPlayers[i].p1 = dominoP1;
+        player1.pecasPlayers[i].p2 = dominoP2;
+
+        player1.pecasPlayers[i].Vh = dominoP1*10 + dominoP2;
+
+        pecas[numPeca].p1 = 9;
+        pecas[numPeca].p2 = 9;
+
     }
-
-
-
 }
 
 
@@ -113,74 +101,34 @@ void montarSeqPlayer1()
 void montarPecasPlayer2()
 {
 
-    // bool sentinela99 = false;
+    int dominoP1, dominoP2;
+    int numPeca;
+    for(int i = 0; i < 7; i++)
+    {
 
-    /*for(int i = 0; i <= 6; i++){
+        numPeca = rand() % 28;
+        dominoP1 = pecas[numPeca].p1;
+        dominoP2 = pecas[numPeca].p2;
 
-        int numPeca2 = rand() % 28;
-        int dominoP1 = pecas[numPeca2].p1;
-        int dominoP2 = pecas[numPeca2].p2;
 
         if(dominoP1 == 9 && dominoP2 == 9)
         {
-            numPeca2 = rand() % 28;
-            dominoP1 = pecas[numPeca2].p1;
-            dominoP2 = pecas[numPeca2].p2;
+            numPeca = rand() % 28;
 
-            player2.pecasPlayers[i].p1 = dominoP1;
-            player2.pecasPlayers[i].p2 = dominoP2;
-            player2.pecasPlayers[i].Vh = dominoP1*10 + dominoP2;
+            dominoP1 = pecas[numPeca].p1;
+            dominoP2 = pecas[numPeca].p2;
         }
-        else{
 
-            player2.pecasPlayers[i].p1 = dominoP1;
-            player2.pecasPlayers[i].p2 = dominoP2;
-            player2.pecasPlayers[i].Vh = dominoP1*10 + dominoP2;
-
-        }
-        pecas[numPeca2].p1 = 9;
-        pecas[numPeca2].p2 = 9;
-    }*/
-
-
-
-
-
-    for(int i = 0; i <= 6; i++)
-    {
-
-        bool sentinela99 = false;
-        int dominoP1;
-        int dominoP2;
-
-        do
-        {
-            if(player2.pecasPlayers[i].p1 == 9 && player2.pecasPlayers[i].p2 == 9)
-            {
-
-                int numPeca = rand() % 28;
-
-                if(pecas[numPeca].p1 == 9)
-                {
-                    sentinela99 = true;
-                }
-
-                else
-                {
-
-                    dominoP1 = pecas[numPeca].p1;
-                    dominoP2 = pecas[numPeca].p2;
-
-                    player2.pecasPlayers[i].p1 = dominoP1;
-                    player2.pecasPlayers[i].p2 = dominoP2;
-                }
-            }
-        }
-        while(!sentinela99);
+        player2.pecasPlayers[i].p1 = dominoP1;
+        player2.pecasPlayers[i].p2 = dominoP2;
 
         player2.pecasPlayers[i].Vh = dominoP1*10 + dominoP2;
-        sentinela99 = false;
+
+        pecas[numPeca].p1 = 9;
+        pecas[numPeca].p2 = 9;
+
     }
+
 }
 
 void montarSeqPlayer2()
