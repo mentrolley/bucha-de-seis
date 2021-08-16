@@ -5,17 +5,17 @@ typedef struct
 {
     int p1;
     int p2;
-    int Vh; //tamanho das dezenas para comparação de tamanho
-} nomePecas; //peça
+    int Vh; //tamanho das dezenas para comparaÃ§Ã£o de tamanho
+} domino; //peÃ§a
 
 typedef struct
 {
-    nomePecas pecasPlayers[7]; //7 peças
+    domino pecasPlayers[7]; //7 peÃ§as
 } players; //jogadores
 
-nomePecas pecas[28]; //peças totais
-players player1; //jogador 1 com 7 peças
-players player2; //jogador 2 com 7 peças
+domino pecas[28]; //peÃ§as totais
+players player1; //jogador 1 com 7 peÃ§as
+players player2; //jogador 2 com 7 peÃ§as
 
 void iniciarP1();
 void iniciarP2();
