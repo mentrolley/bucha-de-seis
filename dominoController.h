@@ -1,0 +1,6 @@
+#ifndef DOMINOCONTROLLER_H_INCLUDED
+#define DOMINOCONTROLLER_H_INCLUDED
+
+void inicializarController();
+
+#endif // DOMINOCONTROLLER_H_INCLUDED
