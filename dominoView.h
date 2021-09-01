@@ -7,13 +7,17 @@
 int menuInicialJogo();
 int totalJogadores();
 int opIniciarJogo();
-bool comecarJogo();
-void jogoMain();
+int opComecarJogo();
+void opcoesJogador1();
+void opcoesJogador2();
+void mostrarMesaDeJogo();
 void montarPecasJogador1();
 void mostrarSequenciaJogador1();
 void montarPecasJogador2();
 void mostrarSequenciaJogador2();
 void pecasRestantes();
 void montarMesaView();
+char posicaoMesa();
+bool verRegras();
 
 #endif // DOMINOVIEW_H_INCLUDED
