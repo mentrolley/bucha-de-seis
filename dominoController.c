@@ -5,43 +5,41 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <locale.h>
 
 //CONTROLE DO JOGO
 
-int opcao;
-bool fim = true;
-bool entradaValida = false;
 
 void inicializarController()
 {
+    bool fim = true;
     do
     {
         int opcao = menuInicialJogo(); //retornando a opção para fazer o switch do menu
 
         switch (opcao)
         {
-        case 1:
-            fim = comecarJogo();
-            break;
-        case 2:
+            int jogador;
+            case 1:
+                fim = comecarJogo();
+                break;
+            case 2:
+                jogador = carregarJogo();
+                    if (jogador == 1 || jogador == 2)
+                        movimentosJogadores(jogador);
+                    else
+                        fim = false;
+                break;
+            case 3:
+                fim = verRegras();
+                system("cls");
+                break;
+            case 4:
+                fim = false;
+                break;
 
-            break;
-        case 3:
-
-            break;
-        case 4:
-
-            break;
-        case 5:
-            fim = verRegras();
-            system("cls");
-            break;
-        case 6:
-            fim = false;
-            break;
-
-        default:
-            printf("Opcão do menu inválida! \n");
+            default:
+                printOpcaoInvalida();
         }
     }
     while (!fim);
@@ -49,7 +47,6 @@ void inicializarController()
 
 void prepararPecasJogo()
 {
-
     iniciarPecas();
     iniciarP1();
     iniciarP2();
@@ -67,7 +64,6 @@ bool comecarJogo()
     }
     else
     {
-        printf("\n  É permitido no máximo 2 jogadores!!! ");
         comecarJogo();
     }
 
@@ -92,7 +88,7 @@ bool prepararJogo()
 
     else if(op != 7 && op != 8)
     {
-        printf("\n   Opção inválida!!! ");
+        printOpcaoInvalida();
         prepararJogo();
     }
 
@@ -101,42 +97,32 @@ bool prepararJogo()
 
 void jogoPrincipal()
 {
-
-    bool jogador1Ganhou = false;
-    bool jogador2Ganhou = false;
-
-    char op;
     //verificar peça maior
     int jogador = verificarPecaInicial(); //quem começa
 
     //Jogo
+    movimentosJogadores(jogador);
+}
+
+void movimentosJogadores(int jogador){
+
+    bool jogador1Ganhou = false;
+    bool jogador2Ganhou = false;
+    int jg = jogador;
+
     do
     {
         //JOGADOR 1
-        if(jogador == 2)  //invertendo quem começa a jogar, pois quem tem a mais alta joga primeiro
+        if(jg == 2)  //invertendo quem começa a jogar, pois quem tem a mais alta joga primeiro
         {
-
-            system("cls");
-            printf("    Mesa de jogo:  \n");
-            mostrarMesaDeJogo();
-
-            printf("\n \n");
-            mostrarPecasJogador1();
-
-
             bool jogador1Jogou = false;
 
             do
             {
-                system("cls");
-                printf("    Mesa de jogo:  \n");
-                mostrarMesaDeJogo();
-                printf("\n \n");
+                limparMesa();
                 mostrarPecasJogador1();
 
-                opcoesJogador1();
-                printf("\n \n");
-                scanf("   %c", &op);
+                char op = opcoesJogador1();
 
                 if(op == 'V' || op == 'v')
                 {
@@ -146,7 +132,15 @@ void jogoPrincipal()
                 else if(op == 'B' || op == 'b')
                 {
                     comprarPecasJogador1();
-                    mostrarPecasJogador1();
+                }
+
+                else if(op == 'S' || op == 's'){
+                    salvarJogo(jogador);
+                }
+
+                else if(op == 'M' || op == 'm'){
+                    system("cls");
+                    inicializarController();
                 }
 
                 else if((op == 'C' || op == 'c'))
@@ -154,18 +148,18 @@ void jogoPrincipal()
                     int p1, p2;
 
                     //selecionar peça para jogar
-                        printf("\n   Selecione uma peça:  \n");
+                        printSelectPecas();
                         mostrarPecasJogador1();
 
                         scanf("%d%d", &p1, &p2);
 
-                    jogador1Jogou = jogadaJogador1(p1, p2); //jogada do jogador
+                        jogador1Jogou = jogadaJogador1(p1, p2);
 
-                    if(jogador1Jogou == true){
+                    if(jogador1Jogou == true)
                         trocarSentinelasJ1(p1, p2); //trocar peças jogadas pelo jogador
-                    }
-                    else{
-                        printf("\n    Não há peças, é necessário comprar!");
+                    else
+                    {
+                        printErroPecas();
                         opcoesJogador1();
                     }
                 }
@@ -173,31 +167,25 @@ void jogoPrincipal()
             while(jogador1Jogou == false);
 
             //contar peças na sentinela, para verificar quem ganhou
-                int contRestantesJ1 = contarRestantesJ1();
-                    if(contRestantesJ1 == 0)
-                        jogador1Ganhou = true;
+            int contRestantesJ1 = contarRestantesJ1();
 
-            jogador = 1; //trocando a vez
+            if(contRestantesJ1 == 0)
+                jogador1Ganhou = true;
+            else
+                jg = 1; //trocando a vez
         }
 
         //JOGADOR 2
-        else if(jogador == 1)
+        else if(jg == 1)
         {
-            system("cls");
-
             bool jogador2Jogou = false;
 
             do
             {
-                system("cls");
-                printf("    Mesa de jogo:  \n");
-                mostrarMesaDeJogo();
-                printf("\n \n");
+                limparMesa();
                 mostrarPecasJogador2();
 
-                opcoesJogador2();
-                printf("\n \n");
-                scanf("   %c", &op);
+                char op = opcoesJogador2();
 
                 if(op == 'V' || op == 'v')
                 {
@@ -208,25 +196,33 @@ void jogoPrincipal()
                 {
                     comprarPecasJogador2();
                 }
+
+                else if(op == 'M' || op == 'm'){
+                    system("cls");
+                    inicializarController();
+                }
+
+                else if(op == 'S' || op == 's'){
+                    salvarJogo(jogador);
+                }
+
                 else if((op == 'C' || op == 'c'))
                 {
                     int p1, p2;
 
                     //selecionar peça para jogar
-                        printf("\n   Selecione uma peça:  \n");
+                        printSelectPecas();
                         mostrarPecasJogador2();
 
                         scanf("%d%d", &p1, &p2);
 
                         jogador2Jogou = jogadaJogador2(p1, p2);
 
-                    if(jogador2Jogou){
+                    if(jogador2Jogou == true)
                         trocarSentinelasJ2(p1, p2); //trocar peças jogadas pelo jogador
-                    }
-
                     else
                     {
-                        printf("\n    Não há peças, é necessário comprar!");
+                        printErroPecas();
                         opcoesJogador2();
                     }
                 }
@@ -234,19 +230,21 @@ void jogoPrincipal()
             while(jogador2Jogou == false);
 
             //contar peças na sentinela, para verificar quem ganhou
-                int contRestantesJ2 = contarRestantesJ2();
+            int contRestantesJ2 = contarRestantesJ2();
 
-                if(contRestantesJ2 == 0)
+            if(contRestantesJ2 == 0)
                 jogador2Ganhou = true;
+            else
+                jg = 2; //trocando a vez
 
-            jogador = 2; //trocando a vez
         }
     }
-    while (!jogador1Ganhou || !jogador2Ganhou);
+    while (jogador1Ganhou == false || jogador2Ganhou == false);
+
+
 }
 
-int verificarPecaInicial()
-{
+int verificarPecaInicial(){
     int jogador;
     int pecaMaisAltaJ1 = 0;
     int pecaMaisAltaJ2 = 0;
@@ -366,24 +364,136 @@ int verificarPecaInicial()
 }
 
 int contarRestantesJ1(){
+
     int cont = 0;
     for(int i = 0; i < 14; i++){
-        if(jogador1.pecasJogadores[i].p1 == 9 && jogador1.pecasJogadores[i].p2 == 9)
+        if(jogador1.pecasJogadores[i].p1 != 9 && jogador1.pecasJogadores[i].p2 != 9)
                 cont++;
     }
 
     return cont;
-
 }
 
 int contarRestantesJ2(){
 
     int cont = 0;
     for(int i = 0; i < 14; i++){
-        if(jogador2.pecasJogadores[i].p1 == 9 && jogador2.pecasJogadores[i].p2 == 9)
+        if(jogador2.pecasJogadores[i].p1 != 9 && jogador2.pecasJogadores[i].p2 != 9)
                 cont++;
     }
 
     return cont;
+}
 
+bool verificandoNaMesa(int a, int b){
+
+        bool colocou = true;
+        int lado;
+        int p1 = a;
+        int p2 = b;
+
+        //pega as primeiras peças livres na esquerda e direita
+        int contEsquerda = 0;
+        int contDireita = 27;
+
+        while(mesaDeJogo[contEsquerda].p1 == 9)
+            contEsquerda++;
+
+        while(mesaDeJogo[contDireita].p1 == 9)
+            contDireita--;
+
+        int pecaEsq = mesaDeJogo[contEsquerda].p1;
+        int pecaDir = mesaDeJogo[contDireita].p2;
+
+        if(pecaEsq == pecaDir){
+
+            lado = posicaoMesa();
+
+                if(lado == 1)
+                {
+                    if(pecaEsq == p2)
+                    {
+                        colocandoNaMesa(lado, contEsquerda-1, p1, p2);
+                    }
+                    else if(pecaEsq == p1)
+                    {
+                        colocandoNaMesa(lado, contEsquerda-1, p2, p1);
+                    }
+
+                }
+                else if(lado == 2)
+                {
+                    if(pecaDir == p2)
+                    {
+                        colocandoNaMesa(lado, contDireita+1, p2, p1);
+                    }
+                    else if(pecaDir == p1)
+                    {
+                        colocandoNaMesa(lado, contDireita+1, p1, p2);
+                    }
+                }
+        }
+
+        else if((pecaEsq == p1 || pecaEsq == p2) && (pecaDir == p1 || pecaDir == p2)){
+
+            lado = posicaoMesa();
+
+                if(lado == 1)
+                {
+                    if(pecaEsq == p2)
+                    {
+                        colocandoNaMesa(lado, contEsquerda-1, p1, p2);
+                    }
+                    else if(pecaEsq == p1)
+                    {
+                        colocandoNaMesa(lado, contEsquerda-1, p2, p1);
+                    }
+
+                }
+                else if(lado == 2)
+                {
+                    if(pecaDir == p2)
+                    {
+                        colocandoNaMesa(lado, contDireita+1, p2, p1);
+                    }
+                    else if(pecaDir == p1)
+                    {
+                        colocandoNaMesa(lado, contDireita+1, p1, p2);
+                    }
+                }
+        }
+
+        else if(pecaEsq == p1 && !(pecaDir == p1))
+            colocandoNaMesa(1, contEsquerda-1, p2, p1);
+
+        else if(pecaEsq == p2 && !(pecaDir == p2))
+            colocandoNaMesa(1, contEsquerda-1, p1, p2);
+
+        else if(!(pecaEsq == p1) && pecaDir == p1)
+            colocandoNaMesa(2, contDireita+1, p1, p2);
+
+        else if(!(pecaEsq == p2) && pecaDir == p2)
+            colocandoNaMesa(2, contDireita+1, p2, p1);
+
+        else
+            colocou = false;
+
+    return colocou;
+}
+
+void salvarJogo(int jogador){
+    int simNao = opSalvar();
+
+    if(simNao == 1)
+        gravarJogo(jogador);
+}
+
+int carregarJogo(){
+    int simNao = opCarregar();
+    int jogador;
+
+    if(simNao == 1)
+        jogador = lerJogo();
+
+    return jogador;
 }

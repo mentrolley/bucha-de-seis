@@ -1,4 +1,5 @@
 #include "dominoModel.h"
+#include "dominoController.h"
 #include "dominoView.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -262,20 +263,13 @@ bool jogadaJogador1(int a, int b) //jogador 1 jogando
     int p2 = b;
 
     //verficar se a peça é válida
-
     for(int i = 0; i < 14; i++)
-    {
         if(jogador1.pecasJogadores[i].p1 == p1 && jogador1.pecasJogadores[i].p2 == p2)
-        {
             pecaOk = true;
-        }
-    }
 
     //colocar peça na mesa de jogo
     if(pecaOk == true)
-    {
-        jogou = colocandoNaMesa(p1, p2);
-    }
+        jogou = verificandoNaMesa(p1, p2);
 
     return jogou;
 }
@@ -309,9 +303,8 @@ bool jogadaJogador2(int a, int b) //jogador 1 jogando
 
     //colocar peça na mesa de jogo
     if(pecaOk == true)
-    {
-        jogou = colocandoNaMesa(p1, p2);
-    }
+        jogou = verificandoNaMesa(p1, p2);
+
 
     return jogou;
 }
@@ -332,116 +325,64 @@ void trocarSentinelasJ2(int a, int b){
 //COLOCANDO PEÇAS NA MESA
 //AINDA COM PROBLEMAS PRA IR PARA O LADO QUE O JOGADOR QUER QUANDO É POSSÍVEL
 
-bool colocandoNaMesa(int a, int b){
+void colocandoNaMesa(int l, int p, int a, int b){ //lado, posição, p1, p2
 
-        bool colocou = true;
-        int p1 = a;
-        int p2 = b;
+    int lado = l;
+    int pos = p;
+    int p1 = a;
+    int p2 = b;
 
-        //pega as primeiras peças livres na esquerda e direita
-        int contEsquerda = 0;
-        int contDireita = 27;
-
-        while(mesaDeJogo[contEsquerda].p1 == 9)
-            contEsquerda++;
-
-        while(mesaDeJogo[contDireita].p1 == 9)
-            contDireita--;
-
-        if(mesaDeJogo[contEsquerda].p1 == p1)
-        {
-            mesaDeJogo[contEsquerda-1].p1 = p2;
-            mesaDeJogo[contEsquerda-1].p2 = p1;
-        }
-
-        else if(mesaDeJogo[contEsquerda].p1 == p2)
-        {
-            mesaDeJogo[contEsquerda-1].p1 = p1;
-            mesaDeJogo[contEsquerda-1].p2 = p2;
-        }
-
-        else if(mesaDeJogo[contDireita].p2 == p1)
-        {
-            mesaDeJogo[contDireita+1].p1 = p1;
-            mesaDeJogo[contDireita+1].p2 = p2;
-        }
-        else if(mesaDeJogo[contDireita].p2 == p2)
-        {
-            mesaDeJogo[contDireita+1].p1 = p2;
-            mesaDeJogo[contDireita+1].p2 = p1;
-        }
-        else if(p1 == mesaDeJogo[contEsquerda].p1 && p1 == mesaDeJogo[contDireita].p2) //escolher lado
-        {
-            char lado = posicaoMesa();
-
-            if(lado == 'E' || lado == 'e')
-            {
-                if(mesaDeJogo[contEsquerda].p1 == p2)
-                {
-                    mesaDeJogo[contEsquerda-1].p1 = p1;
-                    mesaDeJogo[contEsquerda-1].p2 = p2;
-                }
-                else if(mesaDeJogo[contEsquerda].p1 == p1)
-                {
-                    mesaDeJogo[contEsquerda-1].p1 = p2;
-                    mesaDeJogo[contEsquerda-1].p2 = p1;
-                }
-
-            }
-            else if(lado == 'D' || lado == 'd')
-            {
-                if(mesaDeJogo[contDireita].p2 == p2)
-                {
-                    mesaDeJogo[contDireita-1].p1 = p1;
-                    mesaDeJogo[contDireita-1].p2 = p2;
-                }
-                else if(mesaDeJogo[contDireita].p2 == p1)
-                {
-                    mesaDeJogo[contDireita-1].p1 = p2;
-                    mesaDeJogo[contDireita-1].p2 = p1;
-                }
-            }
-        }
-
-        else if(p2 == mesaDeJogo[contEsquerda].p1 && p2 == mesaDeJogo[contDireita].p2) //escolher lado
-        {
-            char lado = posicaoMesa();
-
-            if(lado == 'E' || lado == 'e')
-            {
-                if(mesaDeJogo[contEsquerda].p1 == p2)
-                {
-                    mesaDeJogo[contEsquerda-1].p1 = p1;
-                    mesaDeJogo[contEsquerda-1].p2 = p2;
-                }
-                else if(mesaDeJogo[contEsquerda].p1 == p1)
-                {
-                    mesaDeJogo[contEsquerda-1].p1 = p2;
-                    mesaDeJogo[contEsquerda-1].p2 = p1;
-                }
-
-            }
-            else if(lado == 'D' || lado == 'd')
-            {
-                if(mesaDeJogo[contDireita].p2 == p2)
-                {
-                    mesaDeJogo[contDireita-1].p1 = p1;
-                    mesaDeJogo[contDireita-1].p2 = p2;
-                }
-                else if(mesaDeJogo[contDireita].p2 == p1)
-                {
-                    mesaDeJogo[contDireita-1].p1 = p2;
-                    mesaDeJogo[contDireita-1].p2 = p1;
-                }
-            }
-        }
-
-        else{
-            colocou = false;
-        }
-
-    return colocou;
+    if(lado == 1){
+        mesaDeJogo[pos].p1 = p1;
+        mesaDeJogo[pos].p2 = p2;
+    }
+    else if(lado == 2){
+        mesaDeJogo[pos].p1 = p1;
+        mesaDeJogo[pos].p2 = p2;
+    }
 }
+
+
+///////////////////////
+
+
+void gravarJogo(int jogador){
+
+    FILE *jogo;
+    jogadorSalvar.j = jogador;
+
+    jogo = fopen("dominoSalvar.dat", "w+b");
+
+    if(jogo != NULL){
+        fwrite(&pecas, sizeof(pecas), 1, jogo);
+        fwrite(&mesaDeJogo, sizeof(mesaDeJogo), 1, jogo);
+        fwrite(&jogador1, sizeof(jogador1), 1, jogo);
+        fwrite(&jogador2, sizeof(jogador2), 1, jogo);
+        fwrite(&jogadorSalvar, sizeof(int), 1, jogo); //quem jogou por último
+    }
+
+    fclose(jogo);
+}
+
+int lerJogo(){
+
+    FILE *jogo;
+    int j;
+    jogo = fopen("dominoSalvar.dat", "r+b");
+
+    if(jogo != NULL){
+        fread(&pecas, sizeof(pecas), 1, jogo);
+        fread(&mesaDeJogo, sizeof(mesaDeJogo), 1, jogo);
+        fread(&jogador1, sizeof(jogador1), 1, jogo);
+        fread(&jogador2, sizeof(jogador2), 1, jogo);
+        j = fread(&jogadorSalvar, sizeof(int), 1, jogo); //lê quem jogou por último
+    }
+
+    fclose(jogo);
+    return j;
+}
+
+
 
 
 

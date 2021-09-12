@@ -4,8 +4,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <locale.h>
 
 //TUDO O QUE VAMOS MOSTRAR NA TELA
+
 int menuInicialJogo()
 {
     int op;
@@ -13,10 +15,8 @@ int menuInicialJogo()
     printf("\n \n Jogo de Domino (PUC-SP)\n");
     printf("\n  (1) - Iniciar novo jogo \n");
     printf("  (2) - Continuar a jogar\n");
-    printf("  (3) - Salvar jogo\n");
-    printf("  (4) - Carregar jogo\n");
-    printf("  (5) - Regras do jogo\n");
-    printf("  (6) - Sair do jogo \n");
+    printf("  (3) - Regras do jogo\n");
+    printf("  (4) - Sair do jogo \n");
     printf("  ");
 
     scanf("%d",&op);
@@ -52,6 +52,10 @@ int totalJogadores()
     printf("\n Quantos jogadores? ");
     scanf("%d", &qtd);
 
+    if(qtd > 2 && qtd < 0){
+        printf("\n  É permitido no máximo 2 jogadores!!! ");
+    }
+
     return qtd;
 }
 
@@ -68,15 +72,24 @@ void mostrarMesaDeJogo(){
     }
 
 }
-void opcoesJogador1()
+char opcoesJogador1()
 {
-    printf("\n   Jogador 1: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças  "); //comprar -> apenas para a etapa 3
+    char op;
+    printf("\n   Jogador 1: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças | (S) - Salvar jogo | (M) - Voltar ao menu  "); //comprar -> apenas para a etapa 3
+    printf("\n \n");
+    scanf("   %c", &op);
+
+    return op;
 }
 
-void opcoesJogador2()
+char opcoesJogador2()
 {
+    char op;
+    printf("\n   Jogador 2: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças | (S) - Salvar jogo | (M) - Voltar ao menu  "); //comprar -> apenas para a etapa 3
+    printf("\n \n");
+    scanf("   %c", &op);
 
-    printf("\n   Jogador 2: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças  "); //comprar -> apenas para a etapa 3
+    return op;
 }
 
 void mostrarPecasJogador1()
@@ -139,47 +152,41 @@ void pecasRestantes()
     }
 }
 
-char posicaoMesa(){
+int posicaoMesa(){
+    int lado;
 
-    char posicao;
-    printf("\n   Posicionar na esquerda (E) ou direita (D)?: \n");
-    scanf("%c", &posicao);
+    printf("\n   Posicionar na esquerda (1) ou direita (2)?: \n");
+    scanf("%d", &lado);
 
-    return posicao;
-
+    return lado;
 }
 
-/*void montarMesaView()
-{
-    int r,c;
+int opSalvar(){
 
-    printf("\n   Mesa: \n");
-    for(r = 0; r < 30; ++r)
-    {
-        for(c = 0; c < 30; ++c)
-        {
-            if( r == 0 )
-            {
-                if( c == 0 ) printf("------------------------");
-                else if( c == 29 ) printf("------");
-                else printf("----");
-            }
-            else if( r == 29 )
-            {
-                if( c == 0 ) printf("------------------------");
-                else if( c == 29 ) printf("------");
-                else printf("----");
-            }
-            else
-            {
-                if( c == 0 ) printf("|");
-                else if( c == 29 ) printf("|");
-                else printf("     ");
-            }
-        }
-        printf("\n");
-    }
-}*/
+    printf("\n    Deseja salvar o jogo salvo?\n        (1) - Sim | (2) - Não");
+
+    int simNao = scanf("  %d", &simNao);
+
+    return simNao;
+}
+
+int opCarregar(){
+
+    printf("\n    Deseja carregar o último jogo salvo?\n        (1) - Sim | (2) - Não ");
+
+    int simNao = scanf("  %d", &simNao);
+
+    return simNao;
+}
+
+void limparMesa(){
+
+    system("cls");
+    printf("    Mesa de jogo:  \n");
+    mostrarMesaDeJogo();
+    printf("\n \n");
+
+}
 
 bool verRegras(){
 
@@ -208,3 +215,17 @@ bool verRegras(){
 
     return fechar;
 }
+
+void printOpcaoInvalida(){
+    printf("\n   Opcão do menu inválida! \n");
+}
+
+void printSelectPecas(){
+    printf("\n   Selecione uma peça:  \n");
+}
+
+void printErroPecas(){
+    printf("\n    Não há peças, é necessário comprar!");
+}
+
+
