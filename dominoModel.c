@@ -7,10 +7,8 @@
 #include <time.h>
 
 //APENAS O QUE ENVOLVE OS DADOS DO PROGRAMA
-//printf() -> apenas para teste
 
-void iniciarPecas()
-{
+void iniciarPecas(){
     int contPecas = 0;
 
     for(int i = 0; i <= 6; i++)
@@ -29,10 +27,7 @@ void iniciarPecas()
     }
 }
 
-//*****************
-//REQ09
-void iniciarP1()
-{
+void iniciarP1(){
     for(int i = 0; i <= 6; i++)
     {
         jogador1.pecasJogadores[i].p1 = 9;
@@ -40,8 +35,7 @@ void iniciarP1()
     }
 }
 
-void iniciarP2()
-{
+void iniciarP2(){
     for(int i = 0; i <= 6; i++)
     {
         jogador2.pecasJogadores[i].p1 = 9;
@@ -49,9 +43,7 @@ void iniciarP2()
     }
 }
 
-//REQ08
-void iniciarMesaDeJogo()
-{
+void iniciarMesaDeJogo(){
     int contPecas = 0;
 
     //printf("\n Mesa do jogo: \n");
@@ -67,8 +59,7 @@ void iniciarMesaDeJogo()
     printf("\n \n");
 }
 
-void montarPecasJogador1()
-{
+void montarPecasJogador1(){
     int dominoP1, dominoP2;
     int numPeca;
     int i;
@@ -103,8 +94,7 @@ void montarPecasJogador1()
     }
 }
 
-void montarSequenciaJogador1()
-{
+void montarSequenciaJogador1(){
 
     //printf("\n \n");
     for(int i = 0; i <=6; i++)
@@ -123,8 +113,7 @@ void montarSequenciaJogador1()
 
 }
 
-void montarPecasJogador2()
-{
+void montarPecasJogador2(){
 
     int dominoP1, dominoP2;
     int numPeca;
@@ -163,8 +152,7 @@ void montarPecasJogador2()
 
 }
 
-void montarSequenciaJogador2()
-{
+void montarSequenciaJogador2(){
     for(int i = 0; i <=6; i++)
     {
         for(int j = 0; j < 6-i; j++)
@@ -180,8 +168,7 @@ void montarSequenciaJogador2()
     }
 }
 
-void comprarPecasJogador1()
-{
+void comprarPecasJogador1(){
 
     int cont = 0;
     int i;
@@ -217,8 +204,7 @@ void comprarPecasJogador1()
 
 }
 
-void comprarPecasJogador2()
-{
+void comprarPecasJogador2(){
 
     int cont = 0;
     int i;
@@ -254,10 +240,10 @@ void comprarPecasJogador2()
 
 }
 
-bool jogadaJogador1(int a, int b) //jogador 1 jogando
-{
+bool jogadaJogador1(int a, int b, bool computador){ //jogador 1 jogando
     bool jogou = false;
     bool pecaOk = false;
+    bool comp = computador;
 
     int p1 = a;
     int p2 = b;
@@ -269,7 +255,7 @@ bool jogadaJogador1(int a, int b) //jogador 1 jogando
 
     //colocar peça na mesa de jogo
     if(pecaOk == true)
-        jogou = verificandoNaMesa(p1, p2);
+        jogou = verificandoNaMesa(p1, p2, comp);
 
     return jogou;
 }
@@ -288,13 +274,13 @@ void trocarSentinelasJ1(int a, int b){
             }
 }
 
-bool jogadaJogador2(int a, int b) //jogador 1 jogando
-{
+bool jogadaJogador2(int a, int b, bool computador){ //jogador 2 jogando
     bool jogou = false;
 
     int p1 = a;
     int p2 = b;
     int pecaOk = false;
+    bool comp = computador;
 
     //verficar se a peça é válida na mão do jogador
     for(int i = 0; i < 14; i++)
@@ -303,7 +289,7 @@ bool jogadaJogador2(int a, int b) //jogador 1 jogando
 
     //colocar peça na mesa de jogo
     if(pecaOk == true)
-        jogou = verificandoNaMesa(p1, p2);
+        jogou = verificandoNaMesa(p1, p2, comp);
 
 
     return jogou;
@@ -322,9 +308,6 @@ void trocarSentinelasJ2(int a, int b){
             }
 }
 
-//COLOCANDO PEÇAS NA MESA
-//AINDA COM PROBLEMAS PRA IR PARA O LADO QUE O JOGADOR QUER QUANDO É POSSÍVEL
-
 void colocandoNaMesa(int l, int p, int a, int b){ //lado, posição, p1, p2
 
     int lado = l;
@@ -341,10 +324,6 @@ void colocandoNaMesa(int l, int p, int a, int b){ //lado, posição, p1, p2
         mesaDeJogo[pos].p2 = p2;
     }
 }
-
-
-///////////////////////
-
 
 void gravarJogo(int jogador){
 

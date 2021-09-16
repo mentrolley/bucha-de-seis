@@ -24,6 +24,9 @@ bool verRegras();
 void printOpcaoInvalida();
 void printSelectPecas();
 void printErroPecas();
+int printPecasRestantesComp();
+void printComputador();
+void printVencedor(int jogador, bool computador);
 
 
 #endif // DOMINOVIEW_H_INCLUDED

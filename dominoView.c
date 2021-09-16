@@ -8,8 +8,7 @@
 
 //TUDO O QUE VAMOS MOSTRAR NA TELA
 
-int menuInicialJogo()
-{
+int menuInicialJogo(){
     int op;
 
     printf("\n \n Jogo de Domino (PUC-SP)\n");
@@ -23,8 +22,7 @@ int menuInicialJogo()
     return op;
 }
 
-int opIniciarJogo()
-{
+int opIniciarJogo(){
     int op;
 
     printf("\n Deseja iniciar um novo jogo?");
@@ -34,8 +32,7 @@ int opIniciarJogo()
     return op;
 }
 
-int opComecarJogo()
-{
+int opComecarJogo(){
     int op;
 
     printf("\n Começar novo jogo?");
@@ -45,11 +42,10 @@ int opComecarJogo()
     return op;
 }
 
-int totalJogadores()
-{
+int totalJogadores(){
     int qtd = 0;
 
-    printf("\n Quantos jogadores? ");
+    printf("\n    (1) - Jogador vs. Computador\n    (2) - Jogador vs. Jogador ");
     scanf("%d", &qtd);
 
     if(qtd > 2 && qtd < 0){
@@ -72,8 +68,8 @@ void mostrarMesaDeJogo(){
     }
 
 }
-char opcoesJogador1()
-{
+
+char opcoesJogador1(){
     char op;
     printf("\n   Jogador 1: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças | (S) - Salvar jogo | (M) - Voltar ao menu  "); //comprar -> apenas para a etapa 3
     printf("\n \n");
@@ -82,8 +78,7 @@ char opcoesJogador1()
     return op;
 }
 
-char opcoesJogador2()
-{
+char opcoesJogador2(){
     char op;
     printf("\n   Jogador 2: \n    (C) - Jogar | (V) - Ver Peças | (B) - Comprar Peças | (S) - Salvar jogo | (M) - Voltar ao menu  "); //comprar -> apenas para a etapa 3
     printf("\n \n");
@@ -92,16 +87,15 @@ char opcoesJogador2()
     return op;
 }
 
-void mostrarPecasJogador1()
-{
+void mostrarPecasJogador1(){
     printf("\n   Jogador 1: |");
     for(int i = 0; i < 14; i++)
         if(jogador1.pecasJogadores[i].p1 != 9 && jogador1.pecasJogadores[i].p2 != 9)
             printf("%d%d |", jogador1.pecasJogadores[i].p1, jogador1.pecasJogadores[i].p2);
     printf("\n");
 }
-void mostrarSequenciaJogador1()
-{
+
+void mostrarSequenciaJogador1(){
     printf("\n   Jogador 1: |");
     for(int i =0 ; i < 14; i++)
         if(jogador1.pecasJogadores[i].p1 != 9 && jogador1.pecasJogadores[i].p2 != 9)
@@ -109,8 +103,7 @@ void mostrarSequenciaJogador1()
     printf("\n");
 }
 
-void mostrarPecasJogador2()
-{
+void mostrarPecasJogador2(){
     printf("\n   Jogador 2: |");
     for(int i = 0; i < 14; i++)
         if(jogador2.pecasJogadores[i].p1 != 9 && jogador2.pecasJogadores[i].p2 != 9)
@@ -119,8 +112,7 @@ void mostrarPecasJogador2()
 
 }
 
-void mostrarSequenciaJogador2()
-{
+void mostrarSequenciaJogador2(){
     printf("\n   Jogador 2: |");
     for(int i =0 ; i < 14; i++)
         if(jogador2.pecasJogadores[i].p1 != 9 && jogador2.pecasJogadores[i].p2 != 9)
@@ -128,8 +120,7 @@ void mostrarSequenciaJogador2()
     printf("\n");
 }
 
-void pecasRestantes()
-{
+void pecasRestantes(){
     int contPecas = 0;
     int monteCompra = 0;
 
@@ -228,4 +219,36 @@ void printErroPecas(){
     printf("\n    Não há peças, é necessário comprar!");
 }
 
+int printPecasRestantesComp(){
+    int cont = 0;
 
+    for(int i = 0; i < 7; i++){
+        if(jogador2.pecasJogadores[i].p1 != 9 && jogador2.pecasJogadores[i].p2 != 9){
+            cont++;
+        }
+
+    }
+
+    printf("                 Computador: %d peças restantes\n", cont);
+
+    return cont;
+}
+
+void printComputador(){
+    printf("\n    Computador jogando...");
+}
+
+void printVencedor(int jogador, bool computador){
+    int jg = jogador;
+    bool comp = computador;
+
+    if(comp == false){
+        if(jg== 1)
+            printf("\n \n JOGADOR 1 VENCEU!!!");
+        else
+            printf("\n \n JOGADOR 2 VENCEU!!!");
+    }
+    else
+        printf("\n \n COMPUTADOR VENCEU!!!");
+
+}

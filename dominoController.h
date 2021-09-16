@@ -4,14 +4,16 @@
 void inicializarController();
 void prepararPecasJogo();
 bool comecarJogo();
-bool prepararJogo();
-void jogoPrincipal();
+bool prepararJogo(int jogadores);
+void jogoPrincipal(int jogadores);
 int verificarPecaInicial();
 int contarRestantesJ1();
 int contarRestantesJ2();
-bool verificandoNaMesa(int a, int b);
+bool verificandoNaMesa(int a, int b, bool computador);
 void salvarJogo(int jogador);
 int carregarJogo();
-void movimentosJogadores(int jogador);
+void jogadorVsJogador(int jogador);
+void jogadorVsComputador(int jogador);
+void temporizador();
 
 #endif // DOMINOCONTROLLER_H_INCLUDED
